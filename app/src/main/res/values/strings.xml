@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">UDPTest</string>
+    <string name="clear">Clear</string>
+    <string name="showlog">ShowLog</string>
+</resources>
