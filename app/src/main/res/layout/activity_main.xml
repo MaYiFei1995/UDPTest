@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <EditText
+        android:id="@+id/ipListEditText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_margin="8dp"
+        android:padding="12dp"
+        android:hint="@string/ipList"
+        app:layout_constraintTop_toTopOf="parent"
+        android:inputType="text" />
+
     <Button
         android:id="@+id/testBtn"
         android:layout_width="wrap_content"
@@ -16,18 +26,17 @@
         android:text="@string/app_name"
         app:layout_constraintEnd_toStartOf="@id/clearBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/ipListEditText" />
 
     <Button
         android:id="@+id/clearBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/clear"
-        app:layout_constraintBottom_toBottomOf="@id/testBtn"
         app:layout_constraintEnd_toStartOf="@id/logCheck"
         app:layout_constraintHorizontal_bias="0.441"
         app:layout_constraintStart_toEndOf="@id/testBtn"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/testBtn"
         app:layout_constraintVertical_bias="1.0" />
 
     <CheckBox

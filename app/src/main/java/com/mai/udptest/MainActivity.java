@@ -8,9 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
-
-import com.mai.udptest.R;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -28,15 +27,17 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ArrayList<String> ipList = new ArrayList<>(Arrays.asList("www.baidu.com", "www.taobao.com"));
+    private ArrayList<String> ipList;
     private TextView tv;
     private CheckBox logCheckBox;
     private boolean isRunning = false;
+    private EditText ipListET;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ipListET = findViewById(R.id.ipListEditText);
         tv = findViewById(R.id.textView);
         findViewById(R.id.testBtn).setOnClickListener(this);
         findViewById(R.id.clearBtn).setOnClickListener(this);
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.testBtn:
+                ipList = new ArrayList<>(Arrays.asList(ipListET.getText().toString().trim().split(";")));
                 if (!isRunning)
                     startPing();
                 appendLog("<--------start ping-------->");
@@ -101,7 +103,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 findViewById(R.id.clearBtn).setClickable(true);
                 endTime[0] = l;
                 isRunning = false;
-                new AlertDialog.Builder(MainActivity.this).setTitle("测试结束").setMessage("Total ip count: " + ipList.size() + "\nSuccess count: " + successCount[0] + "\nFailure count: " + failureCount[0] + "\nIt takes: " + (endTime[0] - startTime[0]) + "ms").create().show();
+                String endMsg = "Total ip count: " + ipList.size() + "\nSuccess count: " + successCount[0] + "\nFailure count: " + failureCount[0] + "\nIt takes: " + (endTime[0] - startTime[0]) + "ms";
+                appendLog("<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>");
+                appendLog("<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>");
+                appendLog(endMsg);
+                appendLog("<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>");
+                appendLog("<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>");
+                new AlertDialog.Builder(MainActivity.this).setTitle("测试结束").setMessage(endMsg).create().show();
             }
         });
 
@@ -188,7 +196,7 @@ class PingUtil {
                     if (messageCount != 0) {
                         Message msg = new Message();
                         try {
-                            String result = ping(ip, 3);
+                            String result = ping(ip.trim(), 3);
                             msg.what = MSG_SUCCESS;
                             msg.obj = result;
                         } catch (ArithmeticException e) {
